@@ -8,6 +8,7 @@ VEH_IND_COUNT = 0;
 	sleep 0.1;
 	if (_x != "index") then {
 		_keyIndex = _x;
+		systemChat str _keyIndex;
 		_key = ["read", ["vehicles", _keyIndex]] call _inidbi;
 		_vehicle = createVehicle [_key#0, _key#1, [], 0, "CAN_COLLIDE"];
 		//systemChat format ["%1, %2, %3", _key#0, _key#1, _vehicle];
@@ -24,7 +25,7 @@ VEH_IND_COUNT = 0;
 		clearWeaponCargoGlobal _vehicle;
 		clearBackpackCargoGlobal _vehicle;
 		clearItemCargoGlobal _vehicle;
-		_inventory = _key#6;
+		/*_inventory = _key#6;
 		{
 			_vehicle addMagazineCargoGlobal [_x, 1];
 		} forEach (_inventory select 0);
@@ -39,7 +40,8 @@ VEH_IND_COUNT = 0;
 		sleep 0.1;
 		{
 			_vehicle addBackpackCargoGlobal [_x, (((_inventory select 1) select 1) select _forEachIndex)];
-		} forEach ((_inventory select 3) select 0);
+		} forEach ((_inventory select 3) select 0);*/
+		[_vehicle, _keyIndex] remoteExec ["bfm_fnc_loadVehicleInventory", 2, false];
 		sleep 0.1;
 		_vehicle setVehicleAmmo 0;
 		{_vehicle addMagazine [(_x select 0), (_x select 1)]} forEach _key#7;
