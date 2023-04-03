@@ -1,0 +1,4 @@
+Copy the files from Vanilla or RHS here (you can overwrite)
+You can also create a new template from here
+Please note, whatever new faction you want to use, these files must contain something
+For example, you must define a helicopter, even if the faction doesn't have one
