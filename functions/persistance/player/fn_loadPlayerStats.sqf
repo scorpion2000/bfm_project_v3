@@ -33,17 +33,17 @@ if ((str _result) != "false") then {
 			default { diag_log format ["Error loading stance for [ %1 ]", _player] };
 		};
 
-		if (typeName ((_result select 3) select 0) != "STRING") then {_player setVariable ["ace_advanced_fatigue_anreserve", ((_result select 3) select 0)]};
-		if (typeName ((_result select 3) select 1) != "STRING") then {_player setVariable ["ace_advanced_fatigue_muscledamage", ((_result select 3) select 1)]};
-		if (typeName ((_result select 3) select 2) != "STRING") then {_player setVariable ["ace_advanced_fatigue_anfatigue", ((_result select 3) select 2)]};
-		if (typeName ((_result select 3) select 3) != "STRING") then {_player setVariable ["ace_advanced_fatigue_aimfatigue", ((_result select 3) select 3)]};
-		if (typeName ((_result select 3) select 4) != "STRING") then {_player setVariable ["ace_advanced_fatigue_animhandler", ((_result select 3) select 4)]};
-		if (typeName ((_result select 3) select 5) != "STRING") then {_player setVariable ["ace_advanced_fatigue_ae2reserve", ((_result select 3) select 5)]};
-		if (typeName ((_result select 3) select 6) != "STRING") then {_player setVariable ["ace_advanced_fatigue_ae1reserve", ((_result select 3) select 6)]};
+		/*if (typeName ((_result select 3) select 0) != "STRING") then {_player setVariable ["ace_advanced_fatigue_anreserve", ((_result select 3) select 0), true]};
+		if (typeName ((_result select 3) select 1) != "STRING") then {_player setVariable ["ace_advanced_fatigue_muscledamage", ((_result select 3) select 1), true]};
+		if (typeName ((_result select 3) select 2) != "STRING") then {_player setVariable ["ace_advanced_fatigue_anfatigue", ((_result select 3) select 2), true]};
+		if (typeName ((_result select 3) select 3) != "STRING") then {_player setVariable ["ace_advanced_fatigue_aimfatigue", ((_result select 3) select 3), true]};
+		if (typeName ((_result select 3) select 4) != "STRING") then {_player setVariable ["ace_advanced_fatigue_animhandler", ((_result select 3) select 4), true]};
+		if (typeName ((_result select 3) select 5) != "STRING") then {_player setVariable ["ace_advanced_fatigue_ae2reserve", ((_result select 3) select 5), true]};
+		if (typeName ((_result select 3) select 6) != "STRING") then {_player setVariable ["ace_advanced_fatigue_ae1reserve", ((_result select 3) select 6), true]};*/
 
-		if (typeName ((_result select 4) select 0) != "STRING") then {_player setVariable ["acex_field_rations_consumableactionscache", ((_result select 4) select 0)]};
-		if (typeName ((_result select 4) select 1) != "STRING") then {_player setVariable ["acex_field_rations_hunger", ((_result select 4) select 1)]};
-		if (typeName ((_result select 4) select 2) != "STRING") then {_player setVariable ["acex_field_rations_thirst", ((_result select 4) select 2)]};
+		if (typeName ((_result select 4) select 0) != "STRING") then {_player setVariable ["acex_field_rations_consumableactionscache", ((_result select 4) select 0), true]};
+		if (typeName ((_result select 4) select 1) != "STRING") then {_player setVariable ["acex_field_rations_hunger", ((_result select 4) select 1), true]};
+		if (typeName ((_result select 4) select 2) != "STRING") then {_player setVariable ["acex_field_rations_thirst", ((_result select 4) select 2), true]};
 
 		_medical = ((_result select 5) select 0);
 		{
@@ -61,6 +61,31 @@ if ((str _result) != "false") then {
 				_player setVariable [(_x select 0), (_x select 1), (_x select 2)];
 			}
 		} forEach _medical;
+
+		_katMedical = ((_result select 5) select 2);
+		{
+			//systemChat format ["%1, %2", (_x select 0), (_x select 1)];
+			if (typeName (_x select 1) == "STRING") then {
+				if ((_x select 1) != "nil" && (_x select 1) != "NONE") then {
+					player setvariable [(_x select 0),(_x select 1),(_x select 2)];
+				};
+
+				if ((_x select 0) == "ACE_isUnconscious") then {
+					[player, (_x select 1)] call ACE_fnc_setUnconsciousState;
+				};
+
+				if ((_x select 0) == "ace_medical_pain") then {
+					[player, (_x select 1)] call ACE_fnc_adjustPainLevel;
+				}
+			} else {
+				_player setVariable [(_x select 0), (_x select 1), (_x select 2)];
+			}
+		} forEach _katMedical;
+
+		_aceMedicalLogs = (_result select 9);
+		{
+			_player setVariable _x;
+		} forEach _aceMedicalLogs;
 
 		_player setUnitLoadout (_result#6);
 		[true, name _player] remoteExec ["bfm_fnc_welcomeMessage", _player, false];
