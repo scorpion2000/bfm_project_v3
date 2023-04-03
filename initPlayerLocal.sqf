@@ -2,10 +2,15 @@ enableEnvironment [false, true];
 
 titleText [ format ["<t size='2.0' colorLink='#0000ff' font='PuristaBold'>You are being deployed to the battlefield!</t>"], "BLACK FADED", -1, false, true];
 
-disableUserInput true;
+disableUserInput true;	//Note that this disables the Escape key. It's fucking retarded
 sleep 3;
 _missionIsLoading = missionNamespace getVariable ["missionLoading", false];
-if (_missionIsLoading) then {
+/*if (_missionIsLoading) then {
+	sleep 2;
+	_missionIsLoading = missionNamespace getVariable ["missionLoading", false];
+};*/
+
+while {_missionIsLoading} do {
 	sleep 2;
 	_missionIsLoading = missionNamespace getVariable ["missionLoading", false];
 };

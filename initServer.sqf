@@ -6,11 +6,17 @@ missionNamespace setVariable ["loadingTime", true];
 missionNamespace setVariable ["loadingVehicles", true];
 missionNamespace setVariable ["loadingConstructions", true];
 sleep 3;
-[] remoteExec ["bfm_fnc_loadBuildingDamage", 2, false];
+/*[] remoteExec ["bfm_fnc_loadBuildingDamage", 2, false];
 [] remoteExec ["bfm_fnc_loadAreas", 2, false];
 [] remoteExec ["bfm_fnc_loadTime", 2, false];
 [] remoteExec ["bfm_fnc_loadVehicles", 2, false];
-[] remoteExec ["bfm_fnc_loadConstructions", 2, false];
+[] remoteExec ["bfm_fnc_loadConstructions", 2, false];*/
+
+[] call BFM_fnc_loadBuildingDamage;
+[] call BFM_fnc_loadAreas;
+[] call BFM_fnc_loadTime;
+[] call BFM_fnc_loadVehicles;
+[] call BFM_fnc_loadConstructions;
 
 //Prepairing HC Connection
 addMissionEventHandler ["HandleDisconnect",
