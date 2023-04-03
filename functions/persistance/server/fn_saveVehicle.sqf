@@ -57,4 +57,5 @@ if (_vehicle getVariable ["vehicleIndex", "-1"] == "-1") then {
 			]
 		]
 	] call _inidbi;
+	[_vehicle] remoteExec ["bfm_fnc_saveVehicleInventory", 2, false];
 }

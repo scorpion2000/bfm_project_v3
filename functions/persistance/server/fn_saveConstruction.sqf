@@ -22,7 +22,7 @@ _inidbi = ["new", "BFM_BlueforDetails"] call OO_INIDBI;
 	"write",
 	[
 		"construction", 
-		"idex", 
+		"index", 
 		CONST_INDEX
 	]
 ] call _inidbi;
