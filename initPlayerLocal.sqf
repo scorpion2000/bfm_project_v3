@@ -2,7 +2,7 @@ enableEnvironment [false, true];
 
 titleText [ format ["<t size='2.0' colorLink='#0000ff' font='PuristaBold'>You are being deployed to the battlefield!</t>"], "BLACK FADED", -1, false, true];
 
-disableUserInput true;	//Note that this disables the Escape key. It's fucking retarded
+//disableUserInput true;	//Note that this disables the Escape key. It's fucking retarded
 sleep 3;
 _missionIsLoading = missionNamespace getVariable ["missionLoading", false];
 /*if (_missionIsLoading) then {
@@ -22,7 +22,7 @@ player addEventHandler ["Killed", {
 sleep 1;
 
 [player] remoteExec ["bfm_fnc_loadPlayerStats", 2, false];
-disableUserInput false;
+//disableUserInput false;
 [] execVM "scripts\restrictVehicleByWeight.sqf";
 [] execVM "scripts\quickLoadout.sqf";
 [] execVM "scripts\addAceActions.sqf";
