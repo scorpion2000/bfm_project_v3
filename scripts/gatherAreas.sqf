@@ -114,9 +114,6 @@ _foundAreas = 0;
 		}
 	}
 } forEach _allMapMarkers;
-sleep 1;
-[] remoteExec ["bfm_fnc_loadAreas", 2, false];
-sleep 1;
-[] remoteExec ["bfm_fnc_findCapital", 2, false];
-sleep 1;
-[] remoteExec ["bfm_fnc_generateStartingResources", 2, false];
+[] call BFM_fnc_loadAreas;
+[] call BFM_fnc_findCapital;
+[] call BFM_fnc_generateStartingResources;

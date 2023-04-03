@@ -53,9 +53,11 @@ while {_loading} do {
 	_l3 = missionNamespace getVariable ["loadingTime", false];
 	_l4 = missionNamespace getVariable ["loadingVehicles", false];
 	_l5 = missionNamespace getVariable ["loadingConstructions", false];
-	if (!_l1 && !_l2 && !_l3 && _l4 && !_l5) then {
+	if (!_l1 && !_l2 && !_l3 && !_l4 && !_l5) then {
 		_loading = false;
 		missionNamespace setVariable ["missionLoading", false, true];
+
+		systemChat str format ["%1, %2, %3, %4, %6", _l1, _l2, _l3, _l4, _l5];
 	};
 	sleep 1;
 };
