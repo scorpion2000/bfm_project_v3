@@ -2,13 +2,43 @@ params ["_player"];
 
 systemChat "Loading Player Stats";
 
-_inidbi = ["new", "BFM_PlayerStats"] call OO_INIDBI;
-_result = (["read", ["playerPersistance", str (getPlayerUID _player)]] call _inidbi);
+_playerDBid = ["BFM_Players\player",getPlayerUID _player] joinString "_";
+_inidbi = ["new", _playerDBid] call OO_INIDBI;
 
-if ((str _result) != "false") then {
-	if (_result#7) then {
-		if (_result#8 != "-1") then {
-			_vehicle = missionNamespace getVariable format ["vehicle_%1", _result#8];
+if ("exists" call _inidbi) then {
+	/*
+		["write", ["general", "name", name _player]] call _inidbi;
+		["write", ["general", "positionATL", getPosATL _player]] call _inidbi;
+		["write", ["general", "direction", getDir _player]] call _inidbi;
+		["write", ["general", "stance", stance _player]] call _inidbi;
+		["write", ["general", "aceFatigue", _fatigueArray]] call _inidbi;
+		["write", ["general", "aceRations", _rationsArray]] call _inidbi;
+		["write", ["general", "hitPointDamage", _armaValues]] call _inidbi;
+		["write", ["general", "aceMedical", _armaValues]] call _inidbi;
+		["write", ["general", "katMedical", _katValues]] call _inidbi;
+		["write", ["general", "vehicle", "-1"]] call _inidbi;
+		["write", ["general", "loadout", getUnitLoadout _player]] call _inidbi;
+		["write", ["general", "isAlive", alive _player]] call _inidbi;
+		["write", ["general", "aceMedicalLogs", getUnitLoadout _aceMedicalLogs]] call _inidbi;
+	*/
+
+	_name = 			["read", ["general", "type"]] call _inidbi;
+	_positionATL = 		["read", ["general", "positionATL"]] call _inidbi;
+	_direction = 		["read", ["general", "direction"]] call _inidbi;
+	_stance = 			["read", ["general", "stance"]] call _inidbi;
+	_aceFatigue = 		["read", ["general", "aceFatigue"]] call _inidbi;
+	_aceRations = 		["read", ["general", "aceRations"]] call _inidbi;
+	_hitPointDamage = 	["read", ["general", "hitPointDamage"]] call _inidbi;
+	_aceMedical = 		["read", ["general", "aceMedical"]] call _inidbi;
+	_katMedical = 		["read", ["general", "katMedical"]] call _inidbi;
+	_vehicle = 			["read", ["general", "vehicle"]] call _inidbi;
+	_loadout = 			["read", ["general", "loadout"]] call _inidbi;
+	_isAlive = 			["read", ["general", "isAlive"]] call _inidbi;
+	_aceMedicalLogs = 	["read", ["general", "aceMedicalLogs"]] call _inidbi;
+
+	if (_isAlive) then {
+		if (_vehicle != "-1") then {
+			_vehicle = missionNamespace getVariable format ["vehicle_%1", _vehicle];
 			systemChat str _vehicle;
 			_try = 0;
 			while {!(_player in _vehicle)} do {
@@ -23,16 +53,18 @@ if ((str _result) != "false") then {
 				_try = _try + 1;
 			};
 		} else {
-			_player setPosASL _result#0;
-			_player setDir _result#1;
+			_player setPosATL _positionATL;
+			_player setDir _direction;
 		};
-		switch (_result#2) do {
+		switch (_stance) do {
 			case "STAND": { _player switchAction "PlayerStand" };
 			case "CROUCH": { _player switchAction "PlayerCrouch" };
 			case "PRONE": { _player switchAction "PlayerProne" };
 			default { diag_log format ["Error loading stance for [ %1 ]", _player] };
 		};
 
+		//I honestly forgot why I'm checking the typeName
+		//Seems stupid
 		/*if (typeName ((_result select 3) select 0) != "STRING") then {_player setVariable ["ace_advanced_fatigue_anreserve", ((_result select 3) select 0), true]};
 		if (typeName ((_result select 3) select 1) != "STRING") then {_player setVariable ["ace_advanced_fatigue_muscledamage", ((_result select 3) select 1), true]};
 		if (typeName ((_result select 3) select 2) != "STRING") then {_player setVariable ["ace_advanced_fatigue_anfatigue", ((_result select 3) select 2), true]};
@@ -41,53 +73,37 @@ if ((str _result) != "false") then {
 		if (typeName ((_result select 3) select 5) != "STRING") then {_player setVariable ["ace_advanced_fatigue_ae2reserve", ((_result select 3) select 5), true]};
 		if (typeName ((_result select 3) select 6) != "STRING") then {_player setVariable ["ace_advanced_fatigue_ae1reserve", ((_result select 3) select 6), true]};*/
 
-		if (typeName ((_result select 4) select 0) != "STRING") then {_player setVariable ["acex_field_rations_consumableactionscache", ((_result select 4) select 0), true]};
-		if (typeName ((_result select 4) select 1) != "STRING") then {_player setVariable ["acex_field_rations_hunger", ((_result select 4) select 1), true]};
-		if (typeName ((_result select 4) select 2) != "STRING") then {_player setVariable ["acex_field_rations_thirst", ((_result select 4) select 2), true]};
+		_player setVariable ["acex_field_rations_consumableactionscache", (_aceRations select 0), true];
+		_player setVariable ["acex_field_rations_hunger", (_aceRations select 1), true];
+		_player setVariable ["acex_field_rations_thirst", (_aceRations select 2), true];
 
-		_medical = ((_result select 5) select 0);
 		{
-			//systemChat str _forEachIndex;
-			_player setHitPointDamage [_x, ((_medical select 2) select _forEachIndex)];
-		} forEach (_medical select 0);
-		_medical = ((_result select 5) select 1);
+			_player setHitPointDamage [_x, ((_hitPointDamage select 2) select _forEachIndex)];
+		} forEach (_hitPointDamage select 0);
+
+		{
+			_player setVariable [(_x select 0), (_x select 1), (_x select 2)];
+			
+			if ((_x select 0) == "ACE_isUnconscious") then {
+				systemChat format ["%1, %2", _player, (_x select 1)];
+				[_player, (_x select 1)] call ace_medical_status_fnc_setUnconsciousState;
+			};
+
+			if ((_x select 0) == "ace_medical_pain") then {
+				[_player, (_x select 1)] call ace_medical_status_fnc_adjustPainLevel;
+			};
+		} forEach _aceMedical;
+
 		{
 			//systemChat format ["%1, %2", (_x select 0), (_x select 1)];
-			if (typeName (_x select 1) == "STRING") then {
-				if ((_x select 1) != "nil" && (_x select 1) != "NONE") then {
-					player setvariable [(_x select 0),(_x select 1),(_x select 2)];
-				}
-			} else {
-				_player setVariable [(_x select 0), (_x select 1), (_x select 2)];
-			}
-		} forEach _medical;
-
-		_katMedical = ((_result select 5) select 2);
-		{
-			//systemChat format ["%1, %2", (_x select 0), (_x select 1)];
-			if (typeName (_x select 1) == "STRING") then {
-				if ((_x select 1) != "nil" && (_x select 1) != "NONE") then {
-					player setvariable [(_x select 0),(_x select 1),(_x select 2)];
-				};
-
-				if ((_x select 0) == "ACE_isUnconscious") then {
-					[player, (_x select 1)] call ACE_fnc_setUnconsciousState;
-				};
-
-				if ((_x select 0) == "ace_medical_pain") then {
-					[player, (_x select 1)] call ACE_fnc_adjustPainLevel;
-				}
-			} else {
-				_player setVariable [(_x select 0), (_x select 1), (_x select 2)];
-			}
+			_player setVariable [(_x select 0), (_x select 1), (_x select 2)];
 		} forEach _katMedical;
 
-		_aceMedicalLogs = (_result select 9);
 		{
 			_player setVariable _x;
 		} forEach _aceMedicalLogs;
 
-		_player setUnitLoadout (_result#6);
+		_player setUnitLoadout (_loadout);
 		[true, name _player] remoteExec ["bfm_fnc_welcomeMessage", _player, false];
 	} else {
 		[_player] remoteExec ["bfm_fnc_savePlayerStats", 2, false];

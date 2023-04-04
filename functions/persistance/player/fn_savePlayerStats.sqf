@@ -11,11 +11,12 @@
 params ["_player"];
 
 //systemChat "Starting Player Stat Save";
-_saveArray = [];
-
-_saveArray pushBack (getPosASL _player);
-_saveArray pushBack (getDir _player);
-_saveArray pushBack (stance _player);
+_playerDBid = ["BFM_Players\player",getPlayerUID _player] joinString "_";
+_inidbi = ["new", _playerDBid] call OO_INIDBI;
+["write", ["general", "name", name _player]] call _inidbi;
+["write", ["general", "positionATL", getPosATL _player]] call _inidbi;
+["write", ["general", "direction", getDir _player]] call _inidbi;
+["write", ["general", "stance", stance _player]] call _inidbi;
 
 _fatigueArray = [];
 _fatigueArray pushBack (if (isNil {_player getVariable "ace_advanced_fatigue_anreserve"}) then {"NONE"} else {_player getVariable "ace_advanced_fatigue_anreserve"});
@@ -25,16 +26,16 @@ _fatigueArray pushBack (if (isNil {_player getVariable "ace_advanced_fatigue_aim
 _fatigueArray pushBack (if (isNil {_player getVariable "ace_advanced_fatigue_animhandler"}) then {"NONE"} else {_player getVariable "ace_advanced_fatigue_animhandler"});
 _fatigueArray pushBack (if (isNil {_player getVariable "ace_advanced_fatigue_ae2reserve"}) then {"NONE"} else {_player getVariable "ace_advanced_fatigue_ae2reserve"});
 _fatigueArray pushBack (if (isNil {_player getVariable "ace_advanced_fatigue_ae1reserve"}) then {"NONE"} else {_player getVariable "ace_advanced_fatigue_ae1reserve"});
-_saveArray pushBack _fatigueArray;
+["write", ["general", "aceFatigue", _fatigueArray]] call _inidbi;
 
 _rationsArray = [];
 _rationsArray pushBack (if (isNil {_player getVariable "acex_field_rations_consumableactionscache"}) then {"NONE"} else {_player getVariable "acex_field_rations_consumableactionscache"});
 _rationsArray pushBack (if (isNil {_player getVariable "acex_field_rations_hunger"}) then {"NONE"} else {_player getVariable "acex_field_rations_hunger"});
 _rationsArray pushBack (if (isNil {_player getVariable "acex_field_rations_thirst"}) then {"NONE"} else {_player getVariable "acex_field_rations_thirst"});
-_saveArray pushBack _rationsArray;
+["write", ["general", "aceRations", _rationsArray]] call _inidbi;
 
-_medicalArray = [];
 _armaValues = getAllHitPointsDamage _player;
+["write", ["general", "hitPointDamage", _armaValues]] call _inidbi;
 _aceValues = [];
 _aceChecks = [
 	["ace_medical_bloodVolume",6.0],
@@ -65,9 +66,7 @@ _aceChecks = [
 {
 	_aceValues pushBack [(_x select 0), _player getVariable [(_x select 0), (_x select 1)], true];
 } forEach _aceChecks;
-
-_medicalArray pushBack _armaValues;
-_medicalArray pushBack _aceValues;
+["write", ["general", "aceMedical", _aceValues]] call _inidbi;
 
 _katValues = [];
 _katChecks = [
@@ -118,28 +117,23 @@ _katChecks = [
 {
 	_katValues pushBack [(_x select 0), _player getVariable [(_x select 0), (_x select 1)], true];
 } forEach _katChecks;
+["write", ["general", "katMedical", _katValues]] call _inidbi;
 
-_medicalArray pushBack _katValues;
-_saveArray pushBack _medicalArray;
-
-_saveArray pushback (getUnitLoadout _player);
-_saveArray pushBack (alive _player);
 if (!isNull objectParent _player) then {
 	if ((vehicle _player) getVariable ["vehicleIndex", "-1"] != "-1") then {
-		_saveArray pushBack ((vehicle _player) getVariable "vehicleIndex");
+		["write", ["general", "vehicle", (vehicle _player) getVariable "vehicleIndex"]] call _inidbi;
 	} else {
-		_saveArray pushBack ("-1");
-	}
+		["write", ["general", "vehicle", "-1"]] call _inidbi;
+	};
 } else {
-	_saveArray pushBack ("-1");
+	["write", ["general", "vehicle", "-1"]] call _inidbi;
 };
+["write", ["general", "loadout", getUnitLoadout _player]] call _inidbi;
+["write", ["general", "isAlive", alive _player]] call _inidbi;
 
 _aceMedicalLogs = [];
 {
 	_aceMedicalLogs pushBack [_x, _player getVariable [_x, []]];
 } forEach (_player getVariable ["ace_medical_allLogs",[]]);
 
-_saveArray pushBack _aceMedicalLogs;
-
-_inidbi = ["new", "BFM_PlayerStats"] call OO_INIDBI;
-["write", ["playerPersistance", str (getPlayerUID _player), _saveArray]] call _inidbi;
+["write", ["general", "aceMedicalLogs", _aceMedicalLogs]] call _inidbi;
