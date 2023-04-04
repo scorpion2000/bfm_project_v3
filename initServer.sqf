@@ -56,8 +56,6 @@ while {_loading} do {
 	if (!_l1 && !_l2 && !_l3 && !_l4 && !_l5) then {
 		_loading = false;
 		missionNamespace setVariable ["missionLoading", false, true];
-
-		systemChat str format ["%1, %2, %3, %4, %6", _l1, _l2, _l3, _l4, _l5];
 	};
 	sleep 1;
 };
