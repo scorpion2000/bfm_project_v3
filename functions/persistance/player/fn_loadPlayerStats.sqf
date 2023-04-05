@@ -6,22 +6,6 @@ _playerDBid = ["BFM_Players\player",getPlayerUID _player] joinString "_";
 _inidbi = ["new", _playerDBid] call OO_INIDBI;
 
 if ("exists" call _inidbi) then {
-	/*
-		["write", ["general", "name", name _player]] call _inidbi;
-		["write", ["general", "positionATL", getPosATL _player]] call _inidbi;
-		["write", ["general", "direction", getDir _player]] call _inidbi;
-		["write", ["general", "stance", stance _player]] call _inidbi;
-		["write", ["general", "aceFatigue", _fatigueArray]] call _inidbi;
-		["write", ["general", "aceRations", _rationsArray]] call _inidbi;
-		["write", ["general", "hitPointDamage", _armaValues]] call _inidbi;
-		["write", ["general", "aceMedical", _armaValues]] call _inidbi;
-		["write", ["general", "katMedical", _katValues]] call _inidbi;
-		["write", ["general", "vehicle", "-1"]] call _inidbi;
-		["write", ["general", "loadout", getUnitLoadout _player]] call _inidbi;
-		["write", ["general", "isAlive", alive _player]] call _inidbi;
-		["write", ["general", "aceMedicalLogs", getUnitLoadout _aceMedicalLogs]] call _inidbi;
-	*/
-
 	_name = 			["read", ["general", "type"]] call _inidbi;
 	_positionATL = 		["read", ["general", "positionATL"]] call _inidbi;
 	_direction = 		["read", ["general", "direction"]] call _inidbi;
@@ -66,7 +50,7 @@ if ("exists" call _inidbi) then {
 
 		//I honestly forgot why I'm checking the typeName
 		//Seems stupid
-		//It might be because I didn't use ACE default values before
+		//It might be because I didn't use ACE default values before	~Hullahopp
 		/*if (typeName ((_result select 3) select 0) != "STRING") then {_player setVariable ["ace_advanced_fatigue_anreserve", ((_result select 3) select 0), true]};
 		if (typeName ((_result select 3) select 1) != "STRING") then {_player setVariable ["ace_advanced_fatigue_muscledamage", ((_result select 3) select 1), true]};
 		if (typeName ((_result select 3) select 2) != "STRING") then {_player setVariable ["ace_advanced_fatigue_anfatigue", ((_result select 3) select 2), true]};

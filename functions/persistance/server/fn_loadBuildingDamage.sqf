@@ -25,6 +25,7 @@ _allMObjects = nearestTerrainObjects [_centerposition, [], (worldSize / 2)];
 	};
 } forEach _keysArray;*/
 
+//2023 April note: I should really update this with the new save method, but this is fragilie and barely works as it it ~Hullahopp
 //New method
 {
 	if (_forEachIndex != 0) then {
