@@ -21,26 +21,6 @@ if ("exists" call _inidbi) then {
 	_aceMedicalLogs = 	["read", ["general", "aceMedicalLogs"]] call _inidbi;
 
 	if (_isAlive) then {
-		if (_vehicle != "-1") then {
-			_vehicle = missionNamespace getVariable format ["vehicle_%1", _vehicle];
-			_try = -1;
-			_inVehicle = false;
-			while {!(_inVehicle)} do {
-				_try = _try + 1;
-				_inVehicle = _player in _vehicle;
-				switch (_try) do {
-					case 0: {_player moveInCargo _vehicle};
-					case 1: {_player moveInTurret _vehicle};
-					case 2: {_player moveInGunner _vehicle};
-					case 3: {_player moveInCommander _vehicle};
-					case 4: {_player moveInDriver _vehicle};
-					default { _inVehicle = true; _player setPosATL (getPosATL _vehicle);};	//In case the vehicle is full
-				};
-			};
-		} else {
-			_player setPosATL _positionATL;
-			_player setDir _direction;
-		};
 		switch (_stance) do {
 			case "STAND": { _player switchAction "PlayerStand" };
 			case "CROUCH": { _player switchAction "PlayerCrouch" };
@@ -98,6 +78,26 @@ if ("exists" call _inidbi) then {
 
 		_player setUnitLoadout (_loadout);
 		[true, name _player] remoteExec ["bfm_fnc_welcomeMessage", _player, false];
+
+		if (_vehicle != "-1") then {
+			_vehicle = missionNamespace getVariable format ["vehicle_%1", _vehicle];
+			_try = -1;
+			_inVehicle = false;
+			while {!(_inVehicle)} do {
+				_try = _try + 1;
+				_inVehicle = _player in _vehicle;
+				switch (_try) do {
+					case 0: {_player moveInCargo _vehicle};
+					case 1: {_player moveInGunner _vehicle};
+					case 2: {_player moveInCommander _vehicle};
+					case 3: {_player moveInDriver _vehicle};
+					default { _inVehicle = true; _player setPosATL (getPosATL _vehicle);};	//In case the vehicle is full
+				};
+			};
+		} else {
+			_player setPosATL _positionATL;
+			_player setDir _direction;
+		};
 	} else {
 		[_player] remoteExec ["bfm_fnc_savePlayerStats", 2, false];
 		[false, name _player] remoteExec ["bfm_fnc_welcomeMessage", _player, false];
