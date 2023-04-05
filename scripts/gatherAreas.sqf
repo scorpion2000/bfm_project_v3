@@ -79,38 +79,30 @@ _foundAreas = 0;
 		_triggerToSearch = format ["areaTrigger_%1", (_str select 1)];
 		_trigger = missionNamespace getVariable [_triggerToSearch , objNull];
 		if !(isNull _trigger) then {
-			_saveArray = [
-				_score,
-				_x,
-				str _trigger,
-				false,
-				false,
-				false,
-				"",
-				[
-					0,
-					0,
-					0,
-					0,
-					0,
-					0
-				],
-				2,
-				1,
-				_minMat,
-				_minMan,
-				0,
-				0,
-				false,
-				false
-			];
-
-			_key = format ["area_%1", (_str select 1)];
-			//systemChat str _saveArray;
-			_asd = ["write", ["Areas", _key, _saveArray]] call _inidbi;
-			if (_asd) then {
-				//systemChat "yes";
-			}
+			_section = format ["area_%1", (_str select 1)];
+			["write", [_section, "sectionName", _section]] call _inidbi;
+			["write", [_section, "score", _score]] call _inidbi;
+			["write", [_section, "markerName", _x]] call _inidbi;
+			["write", [_section, "trigger", str _trigger]] call _inidbi;
+			["write", [_section, "isActive", false]] call _inidbi;
+			["write", [_section, "isTaken", false]] call _inidbi;
+			["write", [_section, "underAttack", false]] call _inidbi;
+			["write", [_section, "multiPurpuseSoldier", 0]] call _inidbi;
+			["write", [_section, "tank", 0]] call _inidbi;
+			["write", [_section, "apc", 0]] call _inidbi;
+			["write", [_section, "armedVehicle", 0]] call _inidbi;
+			["write", [_section, "aaGun", 0]] call _inidbi;
+			["write", [_section, "atGun", 0]] call _inidbi;
+			["write", [_section, "staticGun", 0]] call _inidbi;
+			["write", [_section, "transportVehicle", 0]] call _inidbi;
+			["write", [_section, "productionFocus", 2]] call _inidbi;
+			["write", [_section, "productionLevel", 1]] call _inidbi;
+			["write", [_section, "minMat", _minMat]] call _inidbi;
+			["write", [_section, "minMan", _minMan]] call _inidbi;
+			["write", [_section, "storedMaterial", 0]] call _inidbi;
+			["write", [_section, "storedManpower", 0]] call _inidbi;
+			["write", [_section, "isCapital", false]] call _inidbi;
+			["write", [_section, "requestingReinforcements", false]] call _inidbi;
 		}
 	}
 } forEach _allMapMarkers;

@@ -1,12 +1,9 @@
-_areaCount = missionNamespace getVariable "areaCount";
-for "_i" from 0 to (_areaCount -1) do {
-	_areaName = format ["area_%1", _i];
-	_key = missionNamespace getVariable _areaName;
-
-	_storedMaterial = (_key#12);
-	_minimumMaterial = (_key#10);
-	_underAttack = (_key#5);
-	_isCapital = (_key#14);
+_areaObjects = missionNamespace getVariable ["bfm_areas", []];
+{
+	_storedMaterial = _x getVariable "storedMaterial";
+	_minimumMaterial = _x getVariable "minMat";
+	_underAttack = _x getVariable "underAttack";
+	_isCapital = _x getVariable "isCapital";
 
 	if (_storedMaterial > _minimumMaterial && !_underAttack && !_isCapital) then {
 		_toSupply = _storedMaterial - _minimumMaterial;
@@ -14,4 +11,4 @@ for "_i" from 0 to (_areaCount -1) do {
 			//[_areaName, missionNamespace getVariable "areaCapital", "mat", _toSupply, "", "", -1, ""] remoteExec ["bfm_fnc_createSupplyRun", 2, false];
 		};
 	};
-};
+} forEach _areaObjects;

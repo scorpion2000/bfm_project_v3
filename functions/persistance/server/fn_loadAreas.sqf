@@ -1,17 +1,26 @@
 _inidbi = ["new", "BFM_OpforDetails"] call OO_INIDBI;
 
 if ("exists" call _inidbi) then {
-	_keysArray = ["getKeys", "Areas"] call _inidbi;
+	_areasArray = [];
+	_sectionsArray = "getSections" call _inidbi;
 	{
-		_result = (["read", ["Areas", _x]] call _inidbi);
-		missionNamespace setVariable [_x, _result];
+		_areaObject = createVehicle ["VR_3DSelector_01_default_F", [0,0,(_foreachIndex * 5)], [], 0, "CAN_COLLIDE"];
+		_section = _x;
+		_keysArray = ["getKeys", _section] call _inidbi;
+		{
+			_keyValue = ["read", [_section, _x]] call _inidbi;
+			_areaObject setVariable [_x, _keyValue];
+		} forEach _keysArray;
+
+		_areasArray pushBack _areaObject;
+		/*missionNamespace setVariable [_x, _result];
 		if (_result select 14) then {
 			missionNamespace setVariable ["areaCapital", _x];
-		};
-	} forEach _keysArray;
-	missionNamespace setVariable ["areaCount", count _keysArray];
-	[] remoteExec ["bfm_fnc_generateResources", 2, false];
+		};*/
+	} forEach _sectionsArray;
+	missionNamespace setVariable ["bfm_areas", _areasArray];
 } else {
 	[] execVM "scripts\gatherAreas.sqf";
 };
+[] remoteExec ["bfm_fnc_generateResources", 2, false];
 missionNamespace setVariable ["loadingAreas", false];
