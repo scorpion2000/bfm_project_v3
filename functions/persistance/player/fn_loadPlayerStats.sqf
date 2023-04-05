@@ -39,18 +39,19 @@ if ("exists" call _inidbi) then {
 	if (_isAlive) then {
 		if (_vehicle != "-1") then {
 			_vehicle = missionNamespace getVariable format ["vehicle_%1", _vehicle];
-			systemChat str _vehicle;
-			_try = 0;
-			while {!(_player in _vehicle)} do {
+			_try = -1;
+			_inVehicle = false;
+			while {!(_inVehicle)} do {
+				_try = _try + 1;
+				_inVehicle = _player in _vehicle;
 				switch (_try) do {
 					case 0: {_player moveInCargo _vehicle};
 					case 1: {_player moveInTurret _vehicle};
 					case 2: {_player moveInGunner _vehicle};
 					case 3: {_player moveInCommander _vehicle};
 					case 4: {_player moveInDriver _vehicle};
-					default { };
+					default { _inVehicle = true; _player setPosATL (getPosATL _vehicle);};	//In case the vehicle is full
 				};
-				_try = _try + 1;
 			};
 		} else {
 			_player setPosATL _positionATL;
@@ -65,6 +66,7 @@ if ("exists" call _inidbi) then {
 
 		//I honestly forgot why I'm checking the typeName
 		//Seems stupid
+		//It might be because I didn't use ACE default values before
 		/*if (typeName ((_result select 3) select 0) != "STRING") then {_player setVariable ["ace_advanced_fatigue_anreserve", ((_result select 3) select 0), true]};
 		if (typeName ((_result select 3) select 1) != "STRING") then {_player setVariable ["ace_advanced_fatigue_muscledamage", ((_result select 3) select 1), true]};
 		if (typeName ((_result select 3) select 2) != "STRING") then {_player setVariable ["ace_advanced_fatigue_anfatigue", ((_result select 3) select 2), true]};
@@ -72,6 +74,13 @@ if ("exists" call _inidbi) then {
 		if (typeName ((_result select 3) select 4) != "STRING") then {_player setVariable ["ace_advanced_fatigue_animhandler", ((_result select 3) select 4), true]};
 		if (typeName ((_result select 3) select 5) != "STRING") then {_player setVariable ["ace_advanced_fatigue_ae2reserve", ((_result select 3) select 5), true]};
 		if (typeName ((_result select 3) select 6) != "STRING") then {_player setVariable ["ace_advanced_fatigue_ae1reserve", ((_result select 3) select 6), true]};*/
+		_player setVariable ["ace_advanced_fatigue_anreserve", (_aceFatigue select 0), true];
+		_player setVariable ["ace_advanced_fatigue_muscledamage", (_aceFatigue select 1), true];
+		_player setVariable ["ace_advanced_fatigue_anfatigue", (_aceFatigue select 2), true];
+		_player setVariable ["ace_advanced_fatigue_aimfatigue", (_aceFatigue select 3), true];
+		_player setVariable ["ace_advanced_fatigue_animhandler", (_aceFatigue select 4), true];
+		_player setVariable ["ace_advanced_fatigue_ae2reserve", (_aceFatigue select 5), true];
+		_player setVariable ["ace_advanced_fatigue_ae1reserve", (_aceFatigue select 6), true];
 
 		_player setVariable ["acex_field_rations_consumableactionscache", (_aceRations select 0), true];
 		_player setVariable ["acex_field_rations_hunger", (_aceRations select 1), true];
