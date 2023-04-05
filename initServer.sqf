@@ -38,10 +38,6 @@ addMissionEventHandler ["BuildingChanged",
 missionNamespace setVariable ["serverIsLoading", false];
 
 sleep 1;
-[] execVM "scripts\saveDateTime.sqf";
-[] execVM "scripts\playerSave.sqf";
-[] execVM "scripts\vehiclePeriodicSave.sqf";
-[] execVM "scripts\supplyRunGenerator.sqf";
 [] execVM "scripts\factionConfig\BLUFOR\supplyCrates.sqf";
 [] execVM "scripts\factionConfig\OPFOR\aircrafts.sqf";
 [] execVM "scripts\factionConfig\OPFOR\soldiers.sqf";
@@ -59,6 +55,10 @@ while {_loading} do {
 	};
 	sleep 1;
 };
+[] execVM "scripts\saveDateTime.sqf";
+[] execVM "scripts\playerSave.sqf";
+[] execVM "scripts\vehiclePeriodicSave.sqf";
+[] execVM "scripts\supplyRunGenerator.sqf";
 
 addMissionEventHandler ["EntityRespawned", {
 	if (isPlayer (_this select 0)) then {
