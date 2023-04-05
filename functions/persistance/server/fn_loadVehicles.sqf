@@ -26,6 +26,7 @@ for "_i" from 0 to _index do {
 		_items = 			["read", ["vehicle", "items"]] call _inidbVehicle;
 		_weapons = 			["read", ["vehicle", "weapons"]] call _inidbVehicle;
 		_backpacks = 		["read", ["vehicle", "backpacks"]] call _inidbVehicle;
+		_engine = 			["read", ["vehicle", "engine"]] call _inidbVehicle;
 
 		_vehicle = createVehicle [_type, [0,0,10], [], 0, "CAN_COLLIDE"];
 		_vehicle setDir _direction;
@@ -53,6 +54,8 @@ for "_i" from 0 to _index do {
 		{_vehicle addItemCargoGlobal 		[_x, ((_items select 1) select _forEachIndex)];		} forEach (_items select 0);
 		{_vehicle addWeaponCargoGlobal 		[_x, ((_weapons select 1) select _forEachIndex)];	} forEach (_weapons select 0);
 		{_vehicle addBackpackCargoGlobal 	[_x, ((_backpacks select 1) select _forEachIndex)];	} forEach (_backpacks select 0);
+
+		_vehicle engineOn _engine;
 		
 		_vehicle setVariable ["vehicleIndex", str _i];
 		missionNamespace setVariable [format ["vehicle_%1", _i], _vehicle];

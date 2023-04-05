@@ -40,4 +40,5 @@ _inidbi = ["new", _vehicleDBid] call OO_INIDBI;
 ["write",["vehicle","items",getItemCargo _vehicle]] call _inidbi;
 ["write",["vehicle","weapons",getWeaponCargo _vehicle]] call _inidbi;
 ["write",["vehicle","backpacks",getBackpackCargo _vehicle]] call _inidbi;
+["write",["vehicle","engine",isEngineOn _vehicle]] call _inidbi;
 systemChat format ["Saved vehicle_%1", _vehicleID];
