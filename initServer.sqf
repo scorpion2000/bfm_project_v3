@@ -17,6 +17,7 @@ sleep 3;
 [] call BFM_fnc_loadTime;
 [] call BFM_fnc_loadVehicles;
 [] call BFM_fnc_loadConstructions;
+[] call BFM_fnc_loadMapMarkers;
 
 //Prepairing HC Connection
 addMissionEventHandler ["HandleDisconnect",
@@ -66,4 +67,14 @@ addMissionEventHandler ["EntityRespawned", {
 		(_this select 0) setPos getPos bluforBaseSpawnPoint vectorAdd [random [-3, 0, 3], random [-3, 0, 3], 0];
 		(_this select 0) setDir (random 360);
 	};
+}];
+
+addMissionEventHandler ["MarkerCreated", {
+	params ["_marker", "_channelNumber", "_owner", "_local"];
+	[_marker, _channelNumber] remoteExec ["bfm_fnc_saveMapMarkers", 2, false];
+}];
+
+addMissionEventHandler ["MarkerDeleted", {
+	params ["_marker", "_local"];
+	[_marker] remoteExec ["bfm_fnc_deleteMapMarkers", 2, false];
 }];

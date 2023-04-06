@@ -55,12 +55,14 @@ class BFMFunctions {
 		class saveSupplyRun {};
 		class saveConstruction {};
 		class saveBuildingDamage {};
+		class saveMapMarkers {};
 		class loadBuildingDamage {};
 		class loadAreas {};
 		class loadVehicles {};
 		class loadSupplyRun {};
 		class loadTime {};
 		class loadConstructions {};
+		class loadMapMarkers {};
 	};
 
 	class BFM_Debug
