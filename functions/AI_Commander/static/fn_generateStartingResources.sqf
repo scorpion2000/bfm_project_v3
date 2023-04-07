@@ -2,9 +2,9 @@ _areaObjects = missionNamespace getVariable ["bfm_areas", []];
 {
 	_score = _x getVariable "score";
 	_material = ceil (_score /2);
-	_x setVariable ["material", _material];
+	_x setVariable ["storedMaterial", _material];
 	_manpower = ceil (_score /20);
-	_x setVariable ["manpower", _manpower];
+	_x setVariable ["storedManpower", _manpower];
 	_multiPurpuseSoldier = ceil (_score /10);
 	_x setVariable ["multiPurpuseSoldier", _multiPurpuseSoldier];
 	_tank = 0;
