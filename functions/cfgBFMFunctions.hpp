@@ -48,6 +48,7 @@ class BFMFunctions {
 	{
 		file = "functions\persistance\server";
 		class deleteVehicle {};
+		class deleteMapMarkers {};
 		class loadPatrols {};
 		class saveAreas {};
 		class savePatrol {};
