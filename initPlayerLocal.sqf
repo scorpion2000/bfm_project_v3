@@ -26,3 +26,4 @@ sleep 1;
 [] execVM "scripts\restrictVehicleByWeight.sqf";
 [] execVM "scripts\quickLoadout.sqf";
 [] execVM "scripts\addAceActions.sqf";
+[] execVM "scripts\periodicAreaCheck.sqf";

@@ -35,6 +35,9 @@ class BFMFunctions {
 		file = "functions\AI_Commander\logic";
 
 		class supplySystem {};
+		class activateArea {};
+		class deactivateArea {};
+		class checkForAreaDeactivation {};
 	};
 
 	class BFM_OPFOR_Spawners
@@ -42,6 +45,7 @@ class BFMFunctions {
 		file = "functions\opf_spawn";
 
 		class createSupplyRun {};
+		class deployResourcesInArea {};
 	};
 
 	class BFM_ServerPersistance 
@@ -72,5 +76,12 @@ class BFMFunctions {
 		file = "functions\debug";
 		
 		class perfMeter {};
+	};
+
+	class BFM_PlayerActions
+	{
+		file = "functions\player_actions";
+		
+		class checkForArea {};
 	};
 };
