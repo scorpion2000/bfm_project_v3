@@ -1,5 +1,5 @@
 while {true} do {
-	sleep 10;
+	sleep 600;
 	_areaObjects = missionNamespace getVariable ["bfm_areas", []];
 	{
 		_mat = 0;

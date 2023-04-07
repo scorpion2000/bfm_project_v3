@@ -12,5 +12,6 @@ _areaObjects = missionNamespace getVariable ["bfm_areas", []];
 } forEach _areaObjects;
 
 _highestArea setVariable ["isCapital", true];
+missionnamespace setVariable ["area_capital", _highestArea];
 
 [] remoteExec ["bfm_fnc_saveAreas", 2, false];

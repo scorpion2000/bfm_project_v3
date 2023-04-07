@@ -2,13 +2,16 @@
 //Also, if _supplyRunID is NOT -1, then we're loading in a supply run
 params ["_fromArea", "_toArea", "_type", "_amount", "_spawnPos", "_endPos", "_supplyRunID", "_truckDir"];
 
+_fromAreaObject = [_fromArea] call BFM_fnc_findAreaObjectByName;
+_toAreaObject = [_toArea] call BFM_fnc_findAreaObjectByName;
+
 _fromAreaPos = nil;
 _toAreaPos = nil;
 _fromAreaRandomRoad = nil;
 _toAreaRoad = nil;
 _roadDir = nil;
-_fromAreaPos = getMarkerPos ((missionNamespace getVariable _fromArea) select 1);
-_toAreaPos = getMarkerPos ((missionNamespace getVariable _toArea) select 1);
+_fromAreaPos = getMarkerPos (_fromAreaObject getVariable "markerName");
+_toAreaPos = getMarkerPos (_toAreaObject getVariable "markerName");
 
 hint str _spawnPos;
 
@@ -17,13 +20,17 @@ if (_supplyRunID != -1) then {
 	_toAreaRoad = _endPos;
 	_roadDir = _truckDir;
 } else {
-	_key = missionNamespace getVariable _fromArea;
-	if (_type == "mat") then {
-		_key set [12, (_key#12 - _amount)];
-		_key = missionNamespace setVariable [_fromArea, _key];
-	} else {
-		_key set [13, (_key#13 - _amount)];
-		_key = missionNamespace setVariable [_fromArea, _key];
+	switch (_type) do {
+		case "mat": { 
+			_newLocalMaterial = (_fromAreaObject getVariable "storedMaterial") - _amount;
+			systemChat str _newLocalMaterial;
+			_fromAreaObject setVariable ["storedMaterial", _newLocalMaterial];
+		};
+		case "man": { 
+			_newLocalManpower = (_fromAreaObject getVariable "storedManpower") - _amount;
+			_fromAreaObject setVariable ["storedManpower", _newLocalManpower];
+		};
+		default { systemChat "Something went wrong with Supply Run creation #1!"; };
 	};
 	[] remoteExec ["bfm_fnc_saveAreas", 2, false];
 
@@ -31,12 +38,12 @@ if (_supplyRunID != -1) then {
 	_toAreaRoad = objNull;
 
 	while {isNull _fromAreaRoad} do {
-		_fromAreaRandom = [[[], [((missionNamespace getVariable _fromArea) select 1)]], []] call BIS_fnc_randomPos;
+		_fromAreaRandom = [[[], [_fromAreaObject getVariable "markerName"]], []] call BIS_fnc_randomPos;
 		_fromAreaRoad = [_fromAreaRandom, 250] call BIS_fnc_nearestRoad;
 	};
 
 	while {isNull _toAreaRoad} do {
-		_toAreaRandom = [[[], [((missionNamespace getVariable _toArea) select 1)]], []] call BIS_fnc_randomPos;
+		_toAreaRandom = [[[], [_toAreaObject getVariable "markerName"]], []] call BIS_fnc_randomPos;
 		_toAreaRoad = [_toAreaRandom, 250] call BIS_fnc_nearestRoad;
 	};
 	_toAreaRoad = getPos _toAreaRoad;
@@ -67,7 +74,7 @@ while {_waiting} do {
 	if ((getPos _truck) distance _toAreaRoad < 20) then {
 		_waiting = false;
 	};
-	if (!alive _truck || !alive _sold) then {
+	if (!alive _truck || !alive _sold || vehicle _sold == _sold) then {
 		_waiting = false;
 	};
 
@@ -77,14 +84,17 @@ while {_waiting} do {
 if (alive _truck && alive _sold) then {
 	deleteVehicle _truck;
 	deleteVehicle _sold;
-
-	_key = missionNamespace getVariable _toArea;
-	if (_type == "mat") then {
-		_key set [12, (_key#12 + _amount)];
-		_key = missionNamespace setVariable [_toArea, _key];
-	} else {
-		_key set [13, (_key#13 + _amount)];
-		_key = missionNamespace setVariable [_toArea, _key];
+	
+	switch (_type) do {
+		case "mat": { 
+			_newLocalMaterial = (_toAreaObject getVariable "storedMaterial") + _amount;
+			_fromAreaObject setVariable ["storedMaterial", _newLocalMaterial];
+		};
+		case "man": { 
+			_newLocalManpower = (_toAreaObject getVariable "storedManpower") + _amount;
+			_fromAreaObject setVariable ["storedManpower", _newLocalManpower];
+		};
+		default { systemChat "Something went wrong with Supply Run creation #2!"; };
 	};
 	[] remoteExec ["bfm_fnc_saveAreas", 2, false];
 } else {
