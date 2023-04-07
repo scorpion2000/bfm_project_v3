@@ -133,3 +133,21 @@ blu_u_pilotLoadout addAction [
 	"",
 	""
 ];
+
+blu_u_engineerLoadout addAction [
+	"Get Engineer Loadout", 
+	{
+		(_this select 1) setUnitLoadout (getUnitLoadout blu_u_engineerLoadout);
+	},
+	nil,
+	1.5,
+	true,
+	false,
+	"",
+	"true",
+	4,
+	false,
+	"",
+	""
+];
+
