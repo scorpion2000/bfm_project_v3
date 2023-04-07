@@ -7,6 +7,7 @@ class BFMFunctions {
 		
 		class deployPlayer {};
 		class applyCratePreset {};
+		class findAreaObjectByName {};
 	};
 	
 	class BFM_PlayerPersistance 
