@@ -8,6 +8,9 @@ class BFMFunctions {
 		class deployPlayer {};
 		class applyCratePreset {};
 		class findAreaObjectByName {};
+		class scoreBuilding {};
+		class subtractFromAreaResource {};
+		class areaRecalculateStatics {};
 	};
 	
 	class BFM_PlayerPersistance 
@@ -46,6 +49,7 @@ class BFMFunctions {
 
 		class createSupplyRun {};
 		class deployResourcesInArea {};
+		class despawnResourcesInArea {};
 	};
 
 	class BFM_ServerPersistance 
@@ -53,15 +57,18 @@ class BFMFunctions {
 		file = "functions\persistance\server";
 		class deleteVehicle {};
 		class deleteMapMarkers {};
-		class loadPatrols {};
+
+		//class savePatrol {};
 		class saveAreas {};
-		class savePatrol {};
 		class saveVehicle {};
 		class saveTime {};
 		class saveSupplyRun {};
 		class saveConstruction {};
 		class saveBuildingDamage {};
 		class saveMapMarkers {};
+		class saveWeather {};
+
+		//class loadPatrols {};
 		class loadBuildingDamage {};
 		class loadAreas {};
 		class loadVehicles {};
@@ -69,6 +76,7 @@ class BFMFunctions {
 		class loadTime {};
 		class loadConstructions {};
 		class loadMapMarkers {};
+		class loadWeather {};
 	};
 
 	class BFM_Debug

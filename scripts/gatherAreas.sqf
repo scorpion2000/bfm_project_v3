@@ -103,6 +103,7 @@ _foundAreas = 0;
 			["write", [_section, "storedManpower", 0]] call _inidbi;
 			["write", [_section, "isCapital", false]] call _inidbi;
 			["write", [_section, "requestingReinforcements", false]] call _inidbi;
+			["write", [_section, "staticObjects", []]] call _inidbi;
 		}
 	}
 } forEach _allMapMarkers;

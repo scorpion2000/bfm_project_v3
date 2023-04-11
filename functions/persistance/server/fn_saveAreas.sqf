@@ -28,4 +28,5 @@ _areaObjects = missionNamespace getVariable ["bfm_areas", []];
 	["write", [_section, "storedManpower", _x getVariable "storedManpower"]] call _inidbi;
 	["write", [_section, "isCapital", _x getVariable "isCapital"]] call _inidbi;
 	["write", [_section, "requestingReinforcements", _x getVariable "requestingReinforcements"]] call _inidbi;
+	["write", [_section, "staticObjects", _x getVariable "staticObjects"]] call _inidbi;
 } forEach _areaObjects;
