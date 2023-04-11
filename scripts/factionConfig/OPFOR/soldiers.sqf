@@ -2,6 +2,10 @@
 	Fill these arrays with units
 	Easiest way to find a unit name is by hovering over one in the Eden editor under the Assets menu
 	For example, Assets/F1/NATO/Men/Autorifleman should say "B_soldier_AR_F"
+
+	Notes: 
+		If you want to influence selection chance, fill the array with the same item multiple times
+		BFM is selecting from these arrays with the selectRandom command
 */
 
 //Fill this with regular infantry to be used in squad creations

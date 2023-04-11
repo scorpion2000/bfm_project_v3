@@ -1,5 +1,5 @@
 /*
-	Fill these arrays with units
+	Fill these arrays with vehicles
 	Easiest way to find a unit name is by hovering over one in the Eden editor under the Assets menu
 	For example, Assets/F1/NATO/Men/Autorifleman should say "B_soldier_AR_F"
 */
@@ -41,7 +41,7 @@ opf_APC = [
 ];
 
 //Mobile Artillery
-opf_APC = [
+opf_MoblieArtillery = [
 	"O_MBT_02_arty_F"
 ];
 
