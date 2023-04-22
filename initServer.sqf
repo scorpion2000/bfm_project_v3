@@ -65,6 +65,7 @@ while {_loading} do {
 [] execVM "scripts\supplyRunGenerator.sqf";
 [] execVM "scripts\periodicWeatherSave.sqf";
 [] execVM "scripts\dynamicWeather.sqf";
+[] execVM "scripts\periodicOpfResourceGeneration.sqf";
 
 addMissionEventHandler ["EntityRespawned", {
 	if (isPlayer (_this select 0)) then {
