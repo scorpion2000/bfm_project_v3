@@ -27,7 +27,6 @@ if ("exists" call _inidbi) then {
 } else {
 	[] execVM "scripts\gatherAreas.sqf";
 };
-[] remoteExec ["bfm_fnc_generateResources", 2, false];
 missionNamespace setVariable ["loadingAreas", false];
 
 {
