@@ -10,6 +10,7 @@
 
 //Fill this with regular infantry to be used in squad creations
 //The script will pull random units from this
+opf_regular_price = [3, 7.5];
 opf_regular = [
 	"O_Soldier_A_F",
 	"O_Soldier_AAR_F",
@@ -25,43 +26,51 @@ opf_regular = [
 
 //Same as opf_regular, but the creation process will favor this one
 //Put unit types here you want to spawn frequently in squads, like a simple rifleman
+opf_basic_price = [3, 7.5];
 opf_basic = [
 	"O_Soldier_F"
 ];
 
 //This array is specific to squad leader type units
 //Every squad will have one of these as the default squad leader
+opf_command_price = [3, 7.5];
 opf_command = [
 	"O_Soldier_SL_F",
 	"O_Soldier_TL_F"
 ];
 
 //For sniper teams
+opf_sniper_price = [10, 25];
 opf_sniper = [
 	"O_sniper_F"
 ];
 
 //For sniper teams
+opf_spotter_price = [10, 25];
 opf_spotter = [
 	"O_spotter_F"
 ];
 
 //Vehicle crew
+opf_crewMan_price = [3, 7.5];
 opf_crewMan = [
 	"O_crew_F"
 ];
 
 //Jet crew
+opf_jetPilot_price = [3, 7.5];
 opf_jetPilot = [
 	"O_Fighter_Pilot_F"
 ];
 
 //Helicopter crew
+opf_heliPilot_price = [3, 7.5];
 opf_heliPilot = [
 	"O_Pilot_F"
 ];
 
 //Officers (for special objectives, won't spawn in regular squads)
+opf_officers_price = [3, 7.5];
 opf_officer = [
 	"O_Officer_Parade_F",
 	"O_Officer_Parade_Veteran_F"
@@ -69,6 +78,7 @@ opf_officer = [
 
 //Logistical soldier
 //This will be used for transport trucks and such. I recommend using an undarmed man, but it's your choice
+opf_logistic_price = [3, 7.5];
 opf_logistic = [
 	"O_Survivor_F"
 ];
