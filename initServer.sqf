@@ -11,6 +11,7 @@ missionNamespace setVariable ["loadingConstructions", true];
 [] execVM "scripts\factionConfig\OPFOR\soldiers.sqf";
 [] execVM "scripts\factionConfig\OPFOR\vehicles.sqf";
 [] execVM "scripts\factionConfig\OPFOR\statics.sqf";
+[] execVM "scripts\factionConfig\OPFOR\constructions.sqf";
 sleep 3;
 /*[] remoteExec ["bfm_fnc_loadBuildingDamage", 2, false];
 [] remoteExec ["bfm_fnc_loadAreas", 2, false];
