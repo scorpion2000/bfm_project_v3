@@ -11,6 +11,7 @@ class BFMFunctions {
 		class scoreBuilding {};
 		class subtractFromAreaResource {};
 		class areaRecalculateStatics {};
+		class findSafePositionOnMap {};
 	};
 	
 	class BFM_PlayerPersistance 
@@ -50,6 +51,7 @@ class BFMFunctions {
 		class createSupplyRun {};
 		class deployResourcesInArea {};
 		class despawnResourcesInArea {};
+		class createConstruction {};
 	};
 
 	class BFM_ServerPersistance 
