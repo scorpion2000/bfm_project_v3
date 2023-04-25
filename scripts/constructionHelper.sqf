@@ -10,8 +10,9 @@ _constructionArray = [];
 	_objectPosition = getPosATL _x;
 	_objectType = typeOf _x;
 	_relativePosition = [(_baseObjectPosition select 0) - (_objectPosition select 0), (_baseObjectPosition select 1) - (_objectPosition select 1), 0];
+	_direction = getDir _x;
 
-	_item = [_objectType, _relativePosition];
+	_item = [_objectType, _relativePosition, _direction];
 	_constructionArray pushBack _item;
 } forEach _allObjects;
 
